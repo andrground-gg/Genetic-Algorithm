@@ -1,5 +1,5 @@
 import random
-from main import get_total_cost
+from utils import get_total_cost
 
 class GeneticAlgorithm:
     def __init__(self, population_size, mutation_rate, crossover_rate):
