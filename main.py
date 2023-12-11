@@ -18,6 +18,13 @@ def generate_nodes(nodes_list):
 
     return nodes
 
+def get_total_cost(path_nodes):
+    total_cost = 0
+    for i in range(-1, len(path_nodes) - 1):
+        total_cost += path_nodes[i].get_distance(path_nodes[i + 1])
+
+    return total_cost
+
 if __name__ == "__main__":
     nodes_from_file = read_nodes_from_file('example.txt')
     nodes = generate_nodes(nodes_from_file)
