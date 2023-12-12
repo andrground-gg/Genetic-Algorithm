@@ -1,4 +1,4 @@
-from utils import read_nodes_from_file, generate_nodes, get_total_cost
+from tsp.utils import read_nodes_from_file, generate_nodes
 from comparisons import compare_population_sizes, compare_selection_methods, compare_crossover_methods, compare_mutation_methods, compare_elitism_portions, compare_mutation_rates
 
 if __name__ == "__main__":

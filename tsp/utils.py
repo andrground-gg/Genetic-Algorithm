@@ -1,5 +1,5 @@
 import numpy as np
-from node import Node
+from tsp.node import Node
 
 def read_nodes_from_file(file_path):
     nodes = []

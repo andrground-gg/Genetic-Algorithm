@@ -1,8 +1,7 @@
-from genetic_algorithm import GeneticAlgorithm
-from selection import SelectionMethod
-from crossover import CrossoverMethod
-from mutation import MutationMethod
-from genetic_algorithm import GeneticAlgorithm
+from ga.genetic_algorithm import GeneticAlgorithm
+from ga.selection import SelectionMethod
+from ga.crossover import CrossoverMethod
+from ga.mutation import MutationMethod
 import matplotlib.pyplot as plt
 
 def compare_population_sizes(nodes):

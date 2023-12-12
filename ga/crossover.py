@@ -1,8 +1,6 @@
 from enum import Enum
 import random
 
-import numpy as np
-
 class CrossoverMethod(Enum):
     SINGLE_POINT = 0
     TWO_POINT = 1

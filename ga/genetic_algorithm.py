@@ -1,9 +1,9 @@
 import random
 import numpy as np
-from utils import get_total_cost
-from selection import Selection
-from crossover import Crossover
-from mutation import Mutation
+from tsp.utils import get_total_cost
+from ga.selection import Selection
+from ga.crossover import Crossover
+from ga.mutation import Mutation
 
 class GeneticAlgorithm:
     def __init__(self, selection_method, crossover_method, mutation_method, genes, population_size, mutation_rate, crossover_rate, elitism_portion=0):
