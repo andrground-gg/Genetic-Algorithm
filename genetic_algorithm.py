@@ -2,10 +2,12 @@ import random
 import numpy as np
 from utils import get_total_cost
 from selection import Selection
+from crossover import Crossover
 
 class GeneticAlgorithm:
-    def __init__(self, selection_method, genes, population_size, mutation_rate, crossover_rate):
-        self.__selection_method = selection_method
+    def __init__(self, selection_method, crossover_method, genes, population_size, mutation_rate, crossover_rate):
+        self.__selection = Selection(selection_method, 2)
+        self.__crossover = Crossover(crossover_method, crossover_rate, 2)
         self.__mutation_rate = mutation_rate
         self.__crossover_rate = crossover_rate
         self.__population_size = population_size
@@ -31,13 +33,15 @@ class GeneticAlgorithm:
         return [self.__calculate_fitness(individual) for individual in self.__population]
     
     def __select_parents(self, fitness_values):
-        # return Selection(self.__selection_method, fitness_values, 2).execute()
+        # return self.__selection.execute(fitness_values)
 
         w = (1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
         indices = random.choices(range(len(self.__population)), k=2, weights=w)
         return self.__population[indices[0]], self.__population[indices[1]]
     
     def __crossover(self, parent1, parent2):
+        # return self.__crossover.execute(parent1, parent2)
+        
         crossover_point = random.randint(0, len(parent1))
         return parent1[:crossover_point] + [gene for gene in parent2 if gene not in parent1[:crossover_point]]
             

@@ -7,12 +7,14 @@ class SelectionMethod(Enum):
     ELITIST = 3
 
 class Selection:
-    def __init__(self, method, fitnesses, num_parents):
+    def __init__(self, method, num_parents):
         self.__method = method
-        self.__fitnesses = fitnesses
+        self.__fitnesses = []
         self.__num_parents = num_parents
 
-    def execute(self):
+    def execute(self, fitnesses):
+        self.__fitnesses = fitnesses
+
         if self.__method == SelectionMethod.ROULETTE_WHEEL:
             return self.__roulette_wheel()
         
