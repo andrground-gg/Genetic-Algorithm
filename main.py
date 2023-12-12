@@ -9,7 +9,7 @@ if __name__ == "__main__":
     nodes_from_file = read_nodes_from_file('example.txt')
     nodes = generate_nodes(nodes_from_file)
 
-    ga = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
+    ga = GeneticAlgorithm(selection_method=SelectionMethod.RANK,
                         crossover_method=CrossoverMethod.SINGLE_POINT,
                         mutation_method=MutationMethod.SWAP,
                         genes=nodes, 

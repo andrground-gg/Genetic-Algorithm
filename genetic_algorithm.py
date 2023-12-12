@@ -35,11 +35,11 @@ class GeneticAlgorithm:
         return [self.__calculate_fitness(individual) for individual in self.__population]
     
     def __select_parents(self, fitness_values):
-        # return self.__selection.execute(fitness_values)
+        return self.__selection.execute(fitness_values, self.__population)
 
-        w = (1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
-        indices = random.choices(range(len(self.__population)), k=2, weights=w)
-        return self.__population[indices[0]], self.__population[indices[1]]
+        # w = (1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
+        # indices = random.choices(range(len(self.__population)), k=2, weights=w)
+        # return self.__population[indices[0]], self.__population[indices[1]]
     
     def __execute_crossover(self, parent1, parent2):
         # return self.__crossover.execute(parent1, parent2)
