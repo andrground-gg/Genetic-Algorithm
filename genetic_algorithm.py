@@ -8,7 +8,11 @@ class GeneticAlgorithm:
         self.__crossover_rate = crossover_rate
         self.__population_size = population_size
         self.__population = self.__init_population(population_size, genes)
+        self.__history = []
         
+    def get_history(self):
+        return self.__history
+    
     def __init_population(self, population_size, genes):
         population = []
         for i in range(population_size):
@@ -21,9 +25,12 @@ class GeneticAlgorithm:
     def __calculate_fitness(self, individual):
         return get_total_cost(individual)
     
+    def __calculate_fitnesses(self):
+        return [self.__calculate_fitness(individual) for individual in self.__population]
+    
     def __select_parents(self):
-        fitness_values = [self.__calculate_fitness(individual) for individual in self.__population]
-        w=(1 / (np.array(fitness_values) + 1e-10)) / np.sum(1 / (np.array(fitness_values) + 1e-10))
+        fitness_values = self.__calculate_fitnesses()
+        w=(1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
         indices = random.choices(range(len(self.__population)), k=2, weights=w)
         return self.__population[indices[0]], self.__population[indices[1]]
     
@@ -37,10 +44,10 @@ class GeneticAlgorithm:
         return individual
     
     def run(self, num_generations):
-        for generation in range(num_generations):
+        for _ in range(num_generations):
             new_population = []
 
-            for i in range(0, self.__population_size, 2):
+            for _ in range(0, self.__population_size, 2):
                 parent1, parent2 = self.__select_parents()
 
                 if random.random() < self.__crossover_rate:
@@ -58,5 +65,6 @@ class GeneticAlgorithm:
                 new_population.extend([child1, child2])
 
             self.__population = new_population
+            self.__history.append(np.mean(self.__calculate_fitnesses()))
 
         return min(self.__population, key=self.__calculate_fitness)
