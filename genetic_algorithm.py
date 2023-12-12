@@ -3,11 +3,13 @@ import numpy as np
 from utils import get_total_cost
 from selection import Selection
 from crossover import Crossover
+from mutation import Mutation
 
 class GeneticAlgorithm:
-    def __init__(self, selection_method, crossover_method, genes, population_size, mutation_rate, crossover_rate):
+    def __init__(self, selection_method, crossover_method, mutation_method, genes, population_size, mutation_rate, crossover_rate):
         self.__selection = Selection(selection_method, 2)
         self.__crossover = Crossover(crossover_method, crossover_rate, 2)
+        self.__mutation = Mutation(mutation_method, mutation_rate)
         self.__mutation_rate = mutation_rate
         self.__crossover_rate = crossover_rate
         self.__population_size = population_size
@@ -45,7 +47,9 @@ class GeneticAlgorithm:
         crossover_point = random.randint(0, len(parent1))
         return parent1[:crossover_point] + [gene for gene in parent2 if gene not in parent1[:crossover_point]]
             
-    def __mutate(self, individual):
+    def __execute_mutation(self, individual):
+        # return self.__mutation.execute(individual)
+
         index1, index2 = random.sample(range(len(individual)), 2)
         individual[index1], individual[index2] = individual[index2], individual[index1]
         return individual
@@ -65,9 +69,9 @@ class GeneticAlgorithm:
                     child2 = parent2.copy()
                 
                 if random.random() < self.__mutation_rate:
-                    child1 = self.__mutate(child1)
+                    child1 = self.__execute_mutation(child1)
                 if random.random() < self.__mutation_rate:
-                    child2 = self.__mutate(child2)
+                    child2 = self.__execute_mutation(child2)
 
                 new_population.extend([child1, child2])
 
