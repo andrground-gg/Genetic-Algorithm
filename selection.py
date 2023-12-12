@@ -6,7 +6,7 @@ import numpy as np
 class SelectionMethod(Enum):
     ROULETTE_WHEEL = 0
     TOURNAMENT = 1
-    RANK = 2
+    STOCHASTIC_UNIVERSAL = 2
 
 class Selection:
     def __init__(self, method, num_parents):
@@ -25,17 +25,21 @@ class Selection:
         if self.__method == SelectionMethod.TOURNAMENT:
             return self.__tournament()
         
-        if self.__method == SelectionMethod.RANK:
-            return self.__rank()
+        if self.__method == SelectionMethod.STOCHASTIC_UNIVERSAL:
+            return self.__stochastic_universal()
         
         pass
 
     def __roulette_wheel(self):
-        fitness_values = np.array(self.__fitnesses)
-        scaled_fitness = np.max(fitness_values) - fitness_values
-        w = scaled_fitness / np.sum(scaled_fitness)
-        indices = random.choices(range(len(self.__population)), k=self.__num_parents, weights=w)
-        return [self.__population[index] for index in indices]
+        parents = []
+        for _ in range(self.__num_parents):
+            fitness_values = np.array(self.__fitnesses)
+            scaled_fitness = np.max(fitness_values) - fitness_values + 1e-10
+            w = scaled_fitness / np.sum(scaled_fitness)
+            indices = random.choices(range(len(self.__population)), k=1, weights=w)
+            parents.append(self.__population[indices[0]])
+
+        return parents
 
     def __tournament(self):
         parents = []
@@ -46,11 +50,16 @@ class Selection:
 
         return parents
 
-    def __rank(self):
-        ranked_indices = np.argsort(self.__fitnesses)
-        ranks = np.empty_like(ranked_indices)
-        ranks[ranked_indices[::-1]] = np.arange(len(self.__fitnesses)) + 1
+    def __stochastic_universal(self):
+        fitness_values = np.array(self.__fitnesses)
+        scaled_fitness = np.max(fitness_values) - fitness_values + 1e-10
+        weights = scaled_fitness / np.sum(scaled_fitness)
 
-        w = ranks / np.sum(ranks)
-        indices = random.choices(ranked_indices, k=self.__num_parents, weights=w)
-        return [self.__population[index] for index in indices]
+        cumulative_weights = np.cumsum(weights)
+
+        start_point = random.uniform(0, 1 / self.__num_parents)
+
+        pointers = [start_point + i / self.__num_parents for i in range(self.__num_parents)]
+        selected_indices = [np.argmax(cumulative_weights >= p) for p in pointers]
+
+        return [self.__population[index] for index in selected_indices]

@@ -44,7 +44,7 @@ class GeneticAlgorithm:
         return self.__mutation.execute(individual)
     
     def run(self, num_generations):
-        for _ in range(num_generations):
+        for gen in range(num_generations):
             new_population = []
 
             for _ in range(0, self.__population_size, 2):
@@ -60,5 +60,8 @@ class GeneticAlgorithm:
 
             self.__population = new_population
             self.__history.append(np.mean(self.__calculate_fitnesses()))
+
+            if gen % 50 == 0:
+                print('Generation: ', gen, ' Mean fitness: ', self.__history[-1])
 
         return min(self.__population, key=self.__calculate_fitness)
