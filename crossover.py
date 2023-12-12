@@ -1,4 +1,5 @@
 from enum import Enum
+from node import Node
 import random
 
 class CrossoverMethod(Enum):
@@ -11,8 +12,8 @@ class Crossover:
         self.__method = method
         self.__crossover_rate = crossover_rate
         self.__num_offsprings = num_offsprings
-        self.__parent1 = None
-        self.__parent2 = None
+        self.__parent1 = []
+        self.__parent2 = []
 
     def execute(self, parent1, parent2):
         self.__parent1 = parent1
