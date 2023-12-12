@@ -1,9 +1,11 @@
 import random
 import numpy as np
 from utils import get_total_cost
+from selection import Selection
 
 class GeneticAlgorithm:
-    def __init__(self, genes, population_size, mutation_rate, crossover_rate):
+    def __init__(self, selection_method, genes, population_size, mutation_rate, crossover_rate):
+        self.__selection_method = selection_method
         self.__mutation_rate = mutation_rate
         self.__crossover_rate = crossover_rate
         self.__population_size = population_size
@@ -28,9 +30,10 @@ class GeneticAlgorithm:
     def __calculate_fitnesses(self):
         return [self.__calculate_fitness(individual) for individual in self.__population]
     
-    def __select_parents(self):
-        fitness_values = self.__calculate_fitnesses()
-        w=(1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
+    def __select_parents(self, fitness_values):
+        # return Selection(self.__selection_method, fitness_values, 2).execute()
+
+        w = (1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
         indices = random.choices(range(len(self.__population)), k=2, weights=w)
         return self.__population[indices[0]], self.__population[indices[1]]
     
@@ -48,7 +51,7 @@ class GeneticAlgorithm:
             new_population = []
 
             for _ in range(0, self.__population_size, 2):
-                parent1, parent2 = self.__select_parents()
+                parent1, parent2 = self.__select_parents(self.__calculate_fitnesses())
 
                 if random.random() < self.__crossover_rate:
                     child1 = self.__crossover(parent1, parent2)
