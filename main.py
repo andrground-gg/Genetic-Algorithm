@@ -10,8 +10,8 @@ if __name__ == "__main__":
     nodes = generate_nodes(nodes_from_file)
 
     ga = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
-                        crossover_method=CrossoverMethod.UNIFORM,
-                        mutation_method=MutationMethod.SWAP,
+                        crossover_method=CrossoverMethod.SINGLE_POINT,
+                        mutation_method=MutationMethod.SCRAMBLE,
                         genes=nodes, 
                         population_size=100, 
                         mutation_rate=0.01, 

@@ -2,10 +2,9 @@ from enum import Enum
 import random
 
 class MutationMethod(Enum):
-    RANDOM = 0
-    SWAP = 1
-    SCRAMBLE = 2
-    INVERSION = 3
+    SWAP = 0
+    SCRAMBLE = 1
+    INVERSION = 2
 
 class Mutation:
     def __init__(self, method, mutation_rate):
@@ -17,9 +16,6 @@ class Mutation:
         self.__offspring = offspring
 
         if random.random() < self.__mutation_rate:
-            if self.__method == MutationMethod.RANDOM:
-                return self.__random()
-            
             if self.__method == MutationMethod.SWAP:
                 return self.__swap()
             
@@ -31,14 +27,25 @@ class Mutation:
         
         return offspring.copy()
 
-    def __random(self):
-        pass
-
     def __swap(self):
-        pass
+        index1, index2 = random.sample(range(len(self.__offspring)), 2)
+        self.__offspring[index1], self.__offspring[index2] = self.__offspring[index2], self.__offspring[index1]
+        return self.__offspring
 
     def __scramble(self):
-        pass
+        start = random.randint(0, len(self.__offspring))
+        end = random.randint(start, len(self.__offspring))
+        genes = self.__offspring[start:end]
+        random.shuffle(genes)
+        self.__offspring[start:end] = genes
+        
+        return self.__offspring
 
     def __inversion(self):
-        pass
+        start = random.randint(0, len(self.__offspring))
+        end = random.randint(start, len(self.__offspring))
+        genes = self.__offspring[start:end]
+        genes.reverse()
+        self.__offspring[start:end] = genes
+
+        return self.__offspring

@@ -41,11 +41,7 @@ class GeneticAlgorithm:
         return self.__crossover.execute(parent1, parent2)
             
     def __execute_mutation(self, individual):
-        # return self.__mutation.execute(individual)
-
-        index1, index2 = random.sample(range(len(individual)), 2)
-        individual[index1], individual[index2] = individual[index2], individual[index1]
-        return individual
+        return self.__mutation.execute(individual)
     
     def run(self, num_generations):
         for _ in range(num_generations):
@@ -57,10 +53,8 @@ class GeneticAlgorithm:
                 child1 = self.__execute_crossover(parent1, parent2)
                 child2 = self.__execute_crossover(parent2, parent1)
                 
-                if random.random() < self.__mutation_rate:
-                    child1 = self.__execute_mutation(child1)
-                if random.random() < self.__mutation_rate:
-                    child2 = self.__execute_mutation(child2)
+                child1 = self.__execute_mutation(child1)
+                child2 = self.__execute_mutation(child2)
 
                 new_population.extend([child1, child2])
 
