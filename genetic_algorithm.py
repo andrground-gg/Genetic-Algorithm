@@ -8,7 +8,7 @@ from mutation import Mutation
 class GeneticAlgorithm:
     def __init__(self, selection_method, crossover_method, mutation_method, genes, population_size, mutation_rate, crossover_rate):
         self.__selection = Selection(selection_method, 2)
-        self.__crossover = Crossover(crossover_method, crossover_rate, 2)
+        self.__crossover = Crossover(crossover_method, crossover_rate)
         self.__mutation = Mutation(mutation_method, mutation_rate)
         self.__mutation_rate = mutation_rate
         self.__crossover_rate = crossover_rate
@@ -36,16 +36,9 @@ class GeneticAlgorithm:
     
     def __select_parents(self, fitness_values):
         return self.__selection.execute(fitness_values, self.__population)
-
-        # w = (1 / (np.array(fitness_values))) / np.sum(1 / (np.array(fitness_values)))
-        # indices = random.choices(range(len(self.__population)), k=2, weights=w)
-        # return self.__population[indices[0]], self.__population[indices[1]]
     
     def __execute_crossover(self, parent1, parent2):
-        # return self.__crossover.execute(parent1, parent2)
-
-        crossover_point = random.randint(0, len(parent1))
-        return parent1[:crossover_point] + [gene for gene in parent2 if gene not in parent1[:crossover_point]]
+        return self.__crossover.execute(parent1, parent2)
             
     def __execute_mutation(self, individual):
         # return self.__mutation.execute(individual)
@@ -61,12 +54,8 @@ class GeneticAlgorithm:
             for _ in range(0, self.__population_size, 2):
                 parent1, parent2 = self.__select_parents(self.__calculate_fitnesses())
 
-                if random.random() < self.__crossover_rate:
-                    child1 = self.__execute_crossover(parent1, parent2)
-                    child2 = self.__execute_crossover(parent2, parent1)
-                else:
-                    child1 = parent1.copy()
-                    child2 = parent2.copy()
+                child1 = self.__execute_crossover(parent1, parent2)
+                child2 = self.__execute_crossover(parent2, parent1)
                 
                 if random.random() < self.__mutation_rate:
                     child1 = self.__execute_mutation(child1)
