@@ -6,12 +6,13 @@ from crossover import Crossover
 from mutation import Mutation
 
 class GeneticAlgorithm:
-    def __init__(self, selection_method, crossover_method, mutation_method, genes, population_size, mutation_rate, crossover_rate):
+    def __init__(self, selection_method, crossover_method, mutation_method, genes, population_size, mutation_rate, crossover_rate, elitism_portion=0):
         self.__selection = Selection(selection_method, 2)
         self.__crossover = Crossover(crossover_method, crossover_rate)
         self.__mutation = Mutation(mutation_method, mutation_rate)
         self.__mutation_rate = mutation_rate
         self.__crossover_rate = crossover_rate
+        self.__elitism_portion = elitism_portion
         self.__population_size = population_size
         self.__population = self.__init_population(population_size, genes)
         self.__history = []
@@ -47,7 +48,12 @@ class GeneticAlgorithm:
         for gen in range(num_generations):
             new_population = []
 
-            for _ in range(0, self.__population_size, 2):
+            if self.__elitism_portion > 0:
+                num_elites = int(self.__elitism_portion * self.__population_size)
+                elites = sorted(self.__population, key=self.__calculate_fitness)[:num_elites]
+                new_population.extend(elites)
+
+            for _ in range(self.__population_size - len(new_population)):
                 parent1, parent2 = self.__select_parents(self.__calculate_fitnesses())
 
                 child1 = self.__execute_crossover(parent1, parent2)
