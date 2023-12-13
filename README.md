@@ -74,7 +74,7 @@ We can see that it takes longer for uniform method to come up with optimal solut
 
 <br>
 
-## Experiment 6 - Mutation Methods
+# Experiment 6 - Mutation Methods
 1. swap mutation
 1. scramble mutation
 1. inversion mutation
