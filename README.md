@@ -78,6 +78,7 @@ We can see that it takes longer for uniform method to come up with optimal solut
 1. swap mutation
 1. scramble mutation
 1. inversion mutation
+
 All these mutation methods were tested with different mutation rates: 0, 0.01 and 0.1 respectively.<br><br>
 <img src="images/mutation_methods_0.png" width="800" alt="Comparing GAs mutation methods with mutation rate 0">
 <img src="images/mutation_methods_0.01.png" width="800" alt="Comparing GAs mutation methods with mutation rate 0.01">
