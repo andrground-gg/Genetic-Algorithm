@@ -6,9 +6,13 @@ if __name__ == "__main__":
     nodes = generate_nodes(nodes_from_file)
 
     # compare_population_sizes(nodes)
-    # compare_selection_methods(nodes)
-    # compare_crossover_methods(nodes)
-    # compare_mutation_methods(nodes)
+    # compare_selection_methods(nodes, 0)
+    # compare_selection_methods(nodes, 0.1)
+    # compare_selection_methods(nodes, 0.5)
+    # compare_crossover_methods(nodes, 1)
+    # compare_mutation_methods(nodes, 0)
+    # compare_mutation_methods(nodes, 0.01)
+    # compare_mutation_methods(nodes, 0.1)
     # compare_elitism_portions(nodes)
     # compare_mutation_rates(nodes)
     

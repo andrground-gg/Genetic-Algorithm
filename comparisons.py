@@ -45,7 +45,7 @@ def compare_population_sizes(nodes):
     ax.legend()
     plt.show()
 
-def compare_selection_methods(nodes):
+def compare_selection_methods(nodes, elitism_portion):
     ga1 = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
                         crossover_method=CrossoverMethod.SINGLE_POINT,
                         mutation_method=MutationMethod.SWAP,
@@ -53,7 +53,7 @@ def compare_selection_methods(nodes):
                         population_size=100, 
                         mutation_rate=0.01, 
                         crossover_rate=1,
-                        elitism_portion=0)
+                        elitism_portion=elitism_portion)
     
     ga2 = GeneticAlgorithm(selection_method=SelectionMethod.TOURNAMENT,
                         crossover_method=CrossoverMethod.SINGLE_POINT,
@@ -62,7 +62,7 @@ def compare_selection_methods(nodes):
                         population_size=100, 
                         mutation_rate=0.01, 
                         crossover_rate=1,
-                        elitism_portion=0)
+                        elitism_portion=elitism_portion)
     
     ga3 = GeneticAlgorithm(selection_method=SelectionMethod.STOCHASTIC_UNIVERSAL,
                         crossover_method=CrossoverMethod.SINGLE_POINT,
@@ -71,7 +71,7 @@ def compare_selection_methods(nodes):
                         population_size=100, 
                         mutation_rate=0.01, 
                         crossover_rate=1,
-                        elitism_portion=0)
+                        elitism_portion=elitism_portion)
 
     ga1.run(500)
     ga2.run(500)
@@ -84,16 +84,17 @@ def compare_selection_methods(nodes):
     ax.set_ylabel('Mean fitness')
     ax.set_xlabel('Generation')
     ax.legend()
+    ax.set_title('Elitism portion = ' + str(elitism_portion))
     plt.show()
 
-def compare_crossover_methods(nodes):
+def compare_crossover_methods(nodes, crossover_rate):
     ga1 = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
                         crossover_method=CrossoverMethod.SINGLE_POINT,
                         mutation_method=MutationMethod.SWAP,
                         genes=nodes, 
                         population_size=100, 
                         mutation_rate=0.01, 
-                        crossover_rate=1,
+                        crossover_rate=crossover_rate,
                         elitism_portion=0)
     
     ga2 = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
@@ -102,7 +103,7 @@ def compare_crossover_methods(nodes):
                         genes=nodes, 
                         population_size=100, 
                         mutation_rate=0.01, 
-                        crossover_rate=1,
+                        crossover_rate=crossover_rate,
                         elitism_portion=0)
     
     ga3 = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
@@ -111,7 +112,7 @@ def compare_crossover_methods(nodes):
                         genes=nodes, 
                         population_size=100, 
                         mutation_rate=0.01, 
-                        crossover_rate=1,
+                        crossover_rate=crossover_rate,
                         elitism_portion=0)
 
     ga1.run(500)
@@ -125,15 +126,16 @@ def compare_crossover_methods(nodes):
     ax.set_ylabel('Mean fitness')
     ax.set_xlabel('Generation')
     ax.legend()
+    ax.set_title('Crossover rate = ' + str(crossover_rate))
     plt.show()
 
-def compare_mutation_methods(nodes):
+def compare_mutation_methods(nodes, mutation_rate):
     ga1 = GeneticAlgorithm(selection_method=SelectionMethod.ROULETTE_WHEEL,
                         crossover_method=CrossoverMethod.SINGLE_POINT,
                         mutation_method=MutationMethod.SWAP,
                         genes=nodes, 
                         population_size=100, 
-                        mutation_rate=0.01, 
+                        mutation_rate=mutation_rate, 
                         crossover_rate=1,
                         elitism_portion=0)
     
@@ -142,7 +144,7 @@ def compare_mutation_methods(nodes):
                         mutation_method=MutationMethod.SCRAMBLE,
                         genes=nodes, 
                         population_size=100, 
-                        mutation_rate=0.01, 
+                        mutation_rate=mutation_rate, 
                         crossover_rate=1,
                         elitism_portion=0)
     
@@ -151,7 +153,7 @@ def compare_mutation_methods(nodes):
                         mutation_method=MutationMethod.INVERSION,
                         genes=nodes, 
                         population_size=100, 
-                        mutation_rate=0.01, 
+                        mutation_rate=mutation_rate, 
                         crossover_rate=1,
                         elitism_portion=0)
 
@@ -166,6 +168,7 @@ def compare_mutation_methods(nodes):
     ax.set_ylabel('Mean fitness')
     ax.set_xlabel('Generation')
     ax.legend()
+    ax.set_title('Mutation rate = ' + str(mutation_rate))
     plt.show()
 
 def compare_elitism_portions(nodes):
